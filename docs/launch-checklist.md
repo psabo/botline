@@ -53,7 +53,11 @@ waits for Patrick's explicit go, one step at a time. Nothing in this file has be
    Worker logged no Resend error, and Resend's API lists both as **delivered** (17:47:34Z, 17:49:32Z). Owner: click
    Confirm in one of them (or Delete). **Key hygiene:** the key that was used can list emails, so it is not send-only,
    and it passed through a chat transcript — after launch, create a send-only key restricted to the domain, set it the
-   same way, and revoke this one in the Resend dashboard.
+   same way, and revoke this one in the Resend dashboard. **Swapped 2026-10-13 19:31Z:** a send-only key for
+   `botline.dev` is the Worker's `RESEND_API_KEY` (checked: it cannot list domains), and a signup through the Worker
+   at 19:31:40Z was delivered with it. The first key still answers the API until the owner revokes it in the Resend
+   dashboard — do that now. (One earlier `secret put` ran with an empty clipboard and stored junk for two minutes;
+   `pbpaste | wrangler secret put NAME` takes the value from the clipboard, and `NAME` is the secret's name.)
    **Deliverability (18:10Z):** both confirmation mails landed in Gmail's Spam; the owner's Confirm click registered
    (row confirmed), so the flow works. DKIM and DMARC are in place (spike log §11); the suspects are the first-time
    sender address and the `workers.dev` links. Two fixes, in order:
