@@ -52,6 +52,15 @@ waits for Patrick's explicit go, one step at a time. Nothing in this file has be
    Confirm in one of them (or Delete). **Key hygiene:** the key that was used can list emails, so it is not send-only,
    and it passed through a chat transcript — after launch, create a send-only key restricted to the domain, set it the
    same way, and revoke this one in the Resend dashboard.
+   **Deliverability (18:10Z):** both confirmation mails landed in Gmail's Spam; the owner's Confirm click registered
+   (row confirmed), so the flow works. DKIM and DMARC are in place (spike log §11); the suspects are the first-time
+   sender address and the `workers.dev` links. Two fixes, in order:
+   3a. (coordinator) the accepted page and API message now say to look in Spam and name the sender address;
+       deployed by the owner 18:25Z as Worker `ca81ff95…` with the same two `--var` flags.
+   3b. (owner, Cloudflare dashboard, ~2 min) Workers & Pages → botline → Settings → Domains & Routes → Add →
+       Custom domain → `botline.decodemysolar.com`. No config change; `workers.dev` keeps working. Then the launch
+       copy's waitlist links switch to `https://botline.decodemysolar.com/waitlist?source=<post>` so the mail's links
+       share the sender's domain. Sign up once more from the new host and check where the mail lands.
 4. **Recording** (≤ 2 minutes, no audio needed): a terminal running `conformance.mjs --relay` on the left, the three app
    windows on the right; stop when the runner prints `relay closed`. Upload anywhere that gives a plain link; that is
    `{RECORDING_URL}`.

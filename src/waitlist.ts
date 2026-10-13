@@ -243,7 +243,11 @@ async function readBody(req: Request): Promise<{ form: boolean; v: Record<string
 
 const json = (body: unknown, status: number, extra: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json", "cache-control": "no-store", ...extra } });
-const ACCEPTED = "If the address can receive mail, a confirmation link is on its way. Nothing is counted until you confirm.";
+/** The sender address a signer should look for; a first mail from a new sender often lands in Spam (seen 2026-10-13). */
+const acceptedText = (from: string) => {
+  const addr = /<([^>]+)>/.exec(from)?.[1] ?? from;
+  return `If the address can receive mail, a confirmation link is on its way from ${addr}. A first mail from a new sender often lands in Spam: look there too. Nothing is counted until you confirm.`;
+};
 const GONE = "This link is not valid: it was used already, or a newer email replaced it.";
 
 /** Confirm/delete: GET shows one button, POST acts. The token comes from ?t= (GET) or the form field t (POST). */
@@ -308,7 +312,8 @@ export async function handleWaitlist(req: Request, env: Env, ctx: ExecutionConte
     if (!(e instanceof ApiError) || !form) throw e;
     return page("Check the form", `<h1>Check the form</h1><p>${esc(String(e.detail.message ?? e.code))}.</p><p><a href="/waitlist">Back</a></p>`, e.status);
   }
+  const accepted = acceptedText(env.WAITLIST_FROM);
   return form
-    ? page("Check your inbox", `<h1>Check your inbox</h1><p>${ACCEPTED}</p><p class="muted">${PRIVACY}</p>`, 202)
-    : json({ status: "accepted", message: ACCEPTED }, 202);
+    ? page("Check your inbox", `<h1>Check your inbox</h1><p>${esc(accepted)}</p><p class="muted">${PRIVACY}</p>`, 202)
+    : json({ status: "accepted", message: accepted }, 202);
 }

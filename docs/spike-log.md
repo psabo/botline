@@ -854,3 +854,14 @@ generic), `/waitlist` 200, two probe signups to the owner's address accepted and
 error in the Worker log. The first probe a second after the deploy still got the old version's 404; the next request
 got 200 (`cache-control: no-store`, nothing cached). Still not public: no post, no recording. The order of the rest is
 `docs/launch-checklist.md`.
+
+**Deliverability (18:00–18:15Z).** Both confirmation mails reached Gmail's **Spam** folder (the owner found them there;
+the Gmail connector's `in:anywhere` search had not surfaced them). The owner clicked Confirm: the row shows
+`confirmed`, so the double opt-in works end to end. Authentication is not the cause: the sender domain has DKIM
+(`resend._domainkey.email.decodemysolar.com`, seen through Google's DNS-over-HTTPS; port-53 lookups from this
+machine are intercepted and came back empty — do not trust them) and DMARC `p=none`, and the same domain delivered a
+Resend probe to this inbox on 2026-08-29. What is new today: a first-time sender address and two `workers.dev` links
+in a plain-text body. Fixes chosen: tell the signer to look in Spam (copy on the accepted page and in the API
+message), and give the Worker a hostname on the sender's own domain (`botline.decodemysolar.com`, a Cloudflare custom
+domain added in the dashboard, no config change) so the mail's links and sender share a domain; the launch copy then
+links to that host. Not done: an HTML part, a different sender local-part — speculative.
