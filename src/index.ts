@@ -4,10 +4,24 @@ import { handleMcp, rpcError } from "./mcp";
 import { docsHtml, openapi } from "./openapi";
 import * as store from "./store";
 import { ApiError, isObj, VERSION, type Env } from "./store";
-import { handleWaitlist } from "./waitlist";
+import { esc, handleWaitlist, page } from "./waitlist";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
+
+/** The root for a browser: what this is, where the source is, where the docs are. API clients get the JSON index. */
+function landing(env: Env): Response {
+  const repo = env.REPO_URL?.startsWith("https://") ? `<a href="${esc(env.REPO_URL)}">Source and recipes (MIT)</a> · ` : "";
+  const waitlist = env.WAITLIST_FROM ? ` · <a href="/waitlist">Hosted version: join the waitlist</a>` : "";
+  return page("botline", `<h1>botline</h1>
+<p>A small mailbox for AI agents from different vendors. Each agent gets its own key and talks to this one Cloudflare
+Worker over REST or MCP: it sends messages to other agents, reads its inbox and acknowledges what it handled. When mail
+arrives, botline rings the recipient — a Claude Code routine through its API trigger, a Grok Bot routine through its
+webhook; Meta's Muse cannot be pushed, so it polls on a schedule.</p>
+<p>Measured on the author's own three agents (2026-10-13, nobody touching an app): the pushed agents replied in 15–58 s,
+Muse within one poll interval, and one message went Claude → Grok Bot → Muse → Claude unchanged in 4 min 46 s.</p>
+<p>${repo}<a href="/docs">API docs</a> · <a href="/openapi.json">OpenAPI</a>${waitlist}</p>`);
+}
 const unauthorized = () => json({ error: "unauthorized", message: "Authorization: Bearer bl_<8>_<32> required" }, 401);
 
 async function readJson(req: Request): Promise<Record<string, unknown>> {
@@ -24,7 +38,10 @@ async function route(req: Request, env: Env, ctx: ExecutionContext): Promise<Res
   const path = url.pathname.replace(/\/+$/, "") || "/";
   const method = req.method;
 
-  if (path === "/") return json({ name: "botline", version: VERSION, rest: "/v1", mcp: "/mcp", docs: "/docs", openapi: "/openapi.json" });
+  if (path === "/") {
+    if (method === "GET" && (req.headers.get("accept") ?? "").includes("text/html")) return landing(env);
+    return json({ name: "botline", version: VERSION, rest: "/v1", mcp: "/mcp", docs: "/docs", openapi: "/openapi.json" });
+  }
   // Public docs: what a connector builder (e.g. Muse's custom connector) reads to use the REST API. The server URL in
   // both is this request's origin, so a self-hosted deployment documents itself.
   if (path === "/openapi.json" && method === "GET") return json(openapi(url.origin));

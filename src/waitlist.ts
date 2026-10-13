@@ -45,12 +45,12 @@ function newToken(): string {
   return btoa(String.fromCharCode(...b)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+export const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const CSP = "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
 // The signup page with Turnstile on: its script and iframe are the only external resources any page loads.
 const CSP_TURNSTILE = CSP.replace("default-src 'none';", `default-src 'none'; script-src ${TURNSTILE}; frame-src ${TURNSTILE};`);
 
-function page(title: string, body: string, status = 200, csp = CSP): Response {
+export function page(title: string, body: string, status = 200, csp = CSP): Response {
   return new Response(
     `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>

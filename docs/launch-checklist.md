@@ -36,13 +36,15 @@ waits for Patrick's explicit go, one step at a time. Nothing in this file has be
    Then `REPO_URL` = `https://github.com/psabo/botline` everywhere a placeholder says `{REPO_URL}`.
    **Steps 1 and 2 done 2026-10-13 ~17:25Z:** main = one commit `04d1ca5` under the noreply address, pushed;
    https://github.com/psabo/botline is public, MIT, description set; origin/main == local HEAD.
-3. **Waitlist on** (the posts link to `https://botline.botline.workers.dev/waitlist?source=<post>`, already filled in
-   the launch copy). Decision: send from the domain Resend already verifies for SolarDecode,
-   `botline <botline@email.decodemysolar.com>` — works today at no cost; a `botline.dev` domain is a phase 2 purchase,
-   not a launch blocker. The public `wrangler.jsonc` stays generic (empty vars), so this deployment's values go on the
-   deploy command line instead. Put the Resend key on the clipboard, then, one per message:
+3. **Waitlist on** (the posts link to `https://botline.dev/waitlist?source=<post>`, filled in the launch copy).
+   The sender must be an address on a domain verified in Resend. **Owner decision 2026-10-13 18:40Z: botline gets its
+   own domain; it borrows nothing from the owner's other product. `botline.dev` registered through Cloudflare
+   ~18:50Z (delegated to the account's nameservers); verified in Resend 18:5xZ; Worker `f0029ab5…` deployed with
+   `WAITLIST_FROM = botline <hello@botline.dev>` (still the first key; the send-only key is the swap below).** The
+   Worker's root now serves a one-paragraph landing page to browsers (JSON index to API clients). The public `wrangler.jsonc` stays generic (empty vars),
+   so this deployment's values go on the deploy command line. Put the Resend key on the clipboard, then, one per message:
    `cd ~/dev/botline && pbpaste | npx wrangler secret put RESEND_API_KEY`
-   `cd ~/dev/botline && npx wrangler deploy --var 'WAITLIST_FROM:botline <botline@email.decodemysolar.com>' --var 'REPO_URL:https://github.com/psabo/botline'`
+   `cd ~/dev/botline && npx wrangler deploy --var 'WAITLIST_FROM:botline <hello@<the botline domain>>' --var 'REPO_URL:https://github.com/psabo/botline'`
    (every later deploy needs the same two `--var` flags, or the waitlist switches itself off again). Then open
    `/waitlist` once and sign up with your own address to see the double opt-in. Turnstile is optional.
    **Done 2026-10-13 17:45–17:50Z** (run by the coordinator on the owner's explicit permission): secret set from the
@@ -57,10 +59,13 @@ waits for Patrick's explicit go, one step at a time. Nothing in this file has be
    sender address and the `workers.dev` links. Two fixes, in order:
    3a. (coordinator) the accepted page and API message now say to look in Spam and name the sender address;
        deployed by the owner 18:25Z as Worker `ca81ff95…` with the same two `--var` flags.
-   3b. (owner, Cloudflare dashboard, ~2 min) Workers & Pages → botline → Settings → Domains & Routes → Add →
-       Custom domain → `botline.decodemysolar.com`. No config change; `workers.dev` keeps working. Then the launch
-       copy's waitlist links switch to `https://botline.decodemysolar.com/waitlist?source=<post>` so the mail's links
-       share the sender's domain. Sign up once more from the new host and check where the mail lands.
+   3b. (owner) botline's own domain: register it (Cloudflare Registrar keeps DNS in the same place), verify it in
+       Resend (three DNS records, which Cloudflare DNS can add in one click), then Workers & Pages → botline →
+       Settings → Domains & Routes → Add → Custom domain → the apex or `api.` host. No config change; `workers.dev`
+       keeps working. The launch copy's waitlist links then switch to that host so the mail's links share the
+       sender's domain. Sign up once more from the new host and check where the mail lands. The first-run sender
+       used on 2026-10-13 for two probe mails was a subdomain of the owner's other product; it is retired and
+       nothing public ever pointed at it.
 4. **Recording** (≤ 2 minutes, no audio needed): a terminal running `conformance.mjs --relay` on the left, the three app
    windows on the right; stop when the runner prints `relay closed`. Upload anywhere that gives a plain link; that is
    `{RECORDING_URL}`.

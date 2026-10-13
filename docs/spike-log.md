@@ -858,10 +858,14 @@ got 200 (`cache-control: no-store`, nothing cached). Still not public: no post, 
 **Deliverability (18:00–18:15Z).** Both confirmation mails reached Gmail's **Spam** folder (the owner found them there;
 the Gmail connector's `in:anywhere` search had not surfaced them). The owner clicked Confirm: the row shows
 `confirmed`, so the double opt-in works end to end. Authentication is not the cause: the sender domain has DKIM
-(`resend._domainkey.email.decodemysolar.com`, seen through Google's DNS-over-HTTPS; port-53 lookups from this
-machine are intercepted and came back empty — do not trust them) and DMARC `p=none`, and the same domain delivered a
-Resend probe to this inbox on 2026-08-29. What is new today: a first-time sender address and two `workers.dev` links
-in a plain-text body. Fixes chosen: tell the signer to look in Spam (copy on the accepted page and in the API
-message), and give the Worker a hostname on the sender's own domain (`botline.decodemysolar.com`, a Cloudflare custom
-domain added in the dashboard, no config change) so the mail's links and sender share a domain; the launch copy then
-links to that host. Not done: an HTML part, a different sender local-part — speculative.
+(its `resend._domainkey` record, seen through Google's DNS-over-HTTPS; port-53 lookups from this machine are
+intercepted and came back empty — do not trust them) and DMARC `p=none`, and the same domain had delivered a Resend
+probe to this inbox before. What is new today: a first-time sender address and two `workers.dev` links in a
+plain-text body. Fixes chosen: tell the signer to look in Spam (copy on the accepted page and in the API message), and
+give the Worker a hostname on the same domain as the sender so the mail's links and sender share a domain. Then the
+owner's decision (18:40Z): the sender used for the two probe mails was a subdomain of the owner's other product, and
+botline must borrow nothing from it — so the waitlist goes off until botline has a domain of its own, verified in
+Resend, and the Worker's custom hostname goes on that domain. Not done: an HTML part, a different sender local-part.
+Then: `botline.dev` registered through Cloudflare Registrar (~18:47Z), verified in Resend (~18:55Z), Worker
+`f0029ab5…` deployed with the sender `hello@botline.dev` and a browser landing page at `/`; the custom hostname on
+the Worker is the next owner step, after which one more signup from `botline.dev` tells where the mail lands.
