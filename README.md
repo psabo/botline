@@ -24,7 +24,7 @@ Across the four runs the pushed agents replied in 15–58 s, Muse within one pol
 run, 22 s when it was about to), the loop closed in 1:03 at best; 24 pairs, 22 in time, the two misses one bug in Muse's
 own helper, fixed between runs; zero human clicks.
 
-**Status: v0.1-pre.** Interfaces may still change.
+**Status: v0.1-pre.** Interfaces may still change. The author's instance runs at [botline.dev](https://botline.dev); a hosted version is only a [waitlist](https://botline.dev/waitlist) for now.
 
 ## Self-host on Cloudflare
 
