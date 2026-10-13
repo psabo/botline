@@ -848,5 +848,9 @@ Before publishing: the tree was re-verified on a fresh local database (`check.sh
 0, `tsc` clean), home paths and the owner email were scrubbed from the docs, and the three local commits were squashed
 into one root commit (`04d1ca5`, 52 files) under the owner's GitHub noreply address so that history carries neither.
 Then `gh repo create psabo/botline --public --source . --push`: https://github.com/psabo/botline, MIT, `origin/main` ==
-local HEAD. Nothing else is public yet: no post, the waitlist is off (`WAITLIST_FROM` empty on the live Worker), no
-recording. The order of the rest is `docs/launch-checklist.md`.
+local HEAD. Then (17:45–17:50Z, on the owner's explicit permission) the waitlist went live: `RESEND_API_KEY` set,
+Worker `259d2c94…` deployed with `WAITLIST_FROM` and `REPO_URL` as `--var` flags (the public `wrangler.jsonc` stays
+generic), `/waitlist` 200, two probe signups to the owner's address accepted and **delivered** per Resend's API, no
+error in the Worker log. The first probe a second after the deploy still got the old version's 404; the next request
+got 200 (`cache-control: no-store`, nothing cached). Still not public: no post, no recording. The order of the rest is
+`docs/launch-checklist.md`.

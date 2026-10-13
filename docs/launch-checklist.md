@@ -45,6 +45,13 @@ waits for Patrick's explicit go, one step at a time. Nothing in this file has be
    `cd ~/dev/botline && npx wrangler deploy --var 'WAITLIST_FROM:botline <botline@email.decodemysolar.com>' --var 'REPO_URL:https://github.com/psabo/botline'`
    (every later deploy needs the same two `--var` flags, or the waitlist switches itself off again). Then open
    `/waitlist` once and sign up with your own address to see the double opt-in. Turnstile is optional.
+   **Done 2026-10-13 17:45–17:50Z** (run by the coordinator on the owner's explicit permission): secret set from the
+   clipboard, Worker version `259d2c94…` deployed with both vars, `/waitlist` 200 with the $9 question, the repo link and
+   the privacy sentence; two probe signups with the owner's address → 202, rows stored unconfirmed, ledger 2 mails, the
+   Worker logged no Resend error, and Resend's API lists both as **delivered** (17:47:34Z, 17:49:32Z). Owner: click
+   Confirm in one of them (or Delete). **Key hygiene:** the key that was used can list emails, so it is not send-only,
+   and it passed through a chat transcript — after launch, create a send-only key restricted to the domain, set it the
+   same way, and revoke this one in the Resend dashboard.
 4. **Recording** (≤ 2 minutes, no audio needed): a terminal running `conformance.mjs --relay` on the left, the three app
    windows on the right; stop when the runner prints `relay closed`. Upload anywhere that gives a plain link; that is
    `{RECORDING_URL}`.
