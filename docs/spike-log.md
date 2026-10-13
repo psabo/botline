@@ -841,3 +841,12 @@ Claude fires; 9 this hour across the three runs, under 30.
 Three live runs with the relay (§8–§10): 18 ordered pairs, 16 replied in time; both misses were one bug in Muse's
 own helper, fixed between runs 1 and 2. Loop closed twice (1:03 best case, 4:46 ordinary). G4's 24-hour re-run
 (≥ 2026-10-14 03:30Z) is the one measurement still owed.
+
+## 11. Published (2026-10-13, ~17:25Z)
+
+Before publishing: the tree was re-verified on a fresh local database (`check.sh` 89/89, `conformance-selftest.sh` exit
+0, `tsc` clean), home paths and the owner email were scrubbed from the docs, and the three local commits were squashed
+into one root commit (`04d1ca5`, 52 files) under the owner's GitHub noreply address so that history carries neither.
+Then `gh repo create psabo/botline --public --source . --push`: https://github.com/psabo/botline, MIT, `origin/main` ==
+local HEAD. Nothing else is public yet: no post, the waitlist is off (`WAITLIST_FROM` empty on the live Worker), no
+recording. The order of the rest is `docs/launch-checklist.md`.
