@@ -1,0 +1,38 @@
+// botline v0.1-pre. Secrets (never in this file): DOORBELL_MASTER_KEY, RESEND_API_KEY (waitlist mail), TURNSTILE_SECRET
+// (waitlist bot check), ECHO_SECRET (check.sh only) via `npx wrangler secret put <NAME>`; locally via .dev.vars (gitignored).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "botline",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  // Outbound doorbell fetches go over the public internet, so a ring can reach another
+  // *.workers.dev URL on the same account (and check.sh's self-test: <base>/v1/_echo).
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "botline-spike",
+      // Remote D1 created 2026-10-13 (`wrangler d1 create botline-spike`). Local dev (--local)
+      // keeps its own SQLite copy under .wrangler/state.
+      "database_id": "3a3560f7-c618-4714-ac12-8cf567366281"
+    }
+  ],
+  "vars": {
+    // Extra Origins allowed on /mcp besides our own (comma-separated). Empty = own origin only.
+    "MCP_ALLOWED_ORIGINS": "",
+    // Hostnames a generic_webhook doorbell may ring (comma-separated). Empty = generic webhooks are off.
+    // check.sh rings <base>/v1/_echo, so a deployment that runs it lists its own host here.
+    "WEBHOOK_ALLOWED_HOSTS": "",
+    // Waitlist mail sender, e.g. "botline <hello@your.domain>" (a Resend-verified domain). Empty, or no RESEND_API_KEY
+    // secret = dev mode: the confirm/delete links go to the Worker log instead of a mail.
+    "WAITLIST_FROM": "", // empty = the waitlist pages and POST /v1/waitlist are off (self-host default)
+    // https:// link to the source repository, shown on /waitlist and in its mail. Empty = no link.
+    "REPO_URL": "",
+    // Confirmation mails per UTC day, all addresses together (Resend's free tier sends 100/day). Past it: no mail, 202.
+    "WAITLIST_MAIL_CAP_PER_DAY": "80",
+    // Cloudflare Turnstile site key for /waitlist. Turnstile is on only when this AND the TURNSTILE_SECRET secret are set.
+    "TURNSTILE_SITE_KEY": ""
+  }
+}

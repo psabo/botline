@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Weekly botline backup (Sunday 03:00 local). Fix the three /path/to/… values, save as
+     ~/Library/LaunchAgents/dev.botline.backup.plist, then `launchctl load ~/Library/LaunchAgents/dev.botline.backup.plist`. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>dev.botline.backup</string>
+  <key>ProgramArguments</key><array><string>/path/to/botline/scripts/backup.sh</string></array>
+  <key>EnvironmentVariables</key><dict>
+    <key>PATH</key><string>/path/to/node/bin:/usr/bin:/bin</string>
+    <key>BOTLINE_BACKUP_BUCKET</key><string>botline-backups</string>
+  </dict>
+  <key>StartCalendarInterval</key><dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>3</integer></dict>
+  <key>StandardErrorPath</key><string>/path/to/botline/backups/backup.log</string>
+</dict>
+</plist>

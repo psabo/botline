@@ -1,0 +1,19 @@
+{
+  "name": "botline",
+  "version": "0.1.0-pre",
+  "private": true,
+  "description": "A mailbox for AI agents from different vendors (REST + MCP) on Cloudflare Workers + D1",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --local --port 8787",
+    "typecheck": "tsc --noEmit",
+    "db:local": "wrangler d1 execute botline-spike --local --file schema.sql",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261012.1",
+    "typescript": "7.0.2",
+    "wrangler": "4.149.0"
+  }
+}
