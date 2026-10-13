@@ -60,12 +60,17 @@ waits for Patrick's explicit go, one step at a time. Nothing in this file has be
    3a. (coordinator) the accepted page and API message now say to look in Spam and name the sender address;
        deployed by the owner 18:25Z as Worker `ca81ff95…` with the same two `--var` flags.
    3b. (owner) botline's own domain: register it (Cloudflare Registrar keeps DNS in the same place), verify it in
-       Resend (three DNS records, which Cloudflare DNS can add in one click), then Workers & Pages → botline →
-       Settings → Domains & Routes → Add → Custom domain → the apex or `api.` host. No config change; `workers.dev`
-       keeps working. The launch copy's waitlist links then switch to that host so the mail's links share the
-       sender's domain. Sign up once more from the new host and check where the mail lands. The first-run sender
-       used on 2026-10-13 for two probe mails was a subdomain of the owner's other product; it is retired and
-       nothing public ever pointed at it.
+       Resend (three DNS records, which Cloudflare DNS can add in one click), then attach it to the Worker as a
+       custom domain. No config change; `workers.dev` keeps working. **Done 2026-10-13:** `botline.dev` registered
+       ~18:47Z, verified in Resend ~18:55Z, attached to the Worker 19:21Z through the Cloudflare API with wrangler's
+       login (the dashboard does the same: Workers & Pages → botline → Settings → Domains & Routes → Add → Custom
+       domain), certificate live by 19:24Z; `https://botline.dev/` serves the landing page, `/waitlist` 200; one
+       signup from the new host (the owner's address, `source=probe3`, 19:24:52Z) accepted with the sender
+       `hello@botline.dev` and links on `botline.dev` (that address was already confirmed, so no mail was due; a
+       plus-address signup at 19:26:06Z, `source=probe4`, was sent by Resend and **landed in Gmail's Inbox**, Updates
+       tab, not Spam — the two mails from the first-run sender had gone to Spam). The launch copy's waitlist links
+       already point at `https://botline.dev/waitlist?source=<post>`. The first-run sender used earlier that day for two probe mails
+       was a subdomain of the owner's other product; it is retired and nothing public ever pointed at it.
 4. **Recording** (≤ 2 minutes, no audio needed): a terminal running `conformance.mjs --relay` on the left, the three app
    windows on the right; stop when the runner prints `relay closed`. Upload anywhere that gives a plain link; that is
    `{RECORDING_URL}`.

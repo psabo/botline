@@ -867,5 +867,12 @@ owner's decision (18:40Z): the sender used for the two probe mails was a subdoma
 botline must borrow nothing from it — so the waitlist goes off until botline has a domain of its own, verified in
 Resend, and the Worker's custom hostname goes on that domain. Not done: an HTML part, a different sender local-part.
 Then: `botline.dev` registered through Cloudflare Registrar (~18:47Z), verified in Resend (~18:55Z), Worker
-`f0029ab5…` deployed with the sender `hello@botline.dev` and a browser landing page at `/`; the custom hostname on
-the Worker is the next owner step, after which one more signup from `botline.dev` tells where the mail lands.
+`f0029ab5…` deployed with the sender `hello@botline.dev` and a browser landing page at `/`; `botline.dev` attached to
+the Worker as a custom domain at 19:21Z (the coordinator's API call was refused by the auto-mode classifier as a
+DNS/certificate change; the owner ran the same call), certificate live by 19:24Z. One signup from
+`https://botline.dev` at 19:24:52Z: accepted, but that address was already confirmed, so nothing was due. A
+plus-address signup from `botline.dev` at 19:26:06Z was sent by Resend from `hello@botline.dev` and **Gmail filed it
+in the Inbox** (Updates tab), where the two earlier mails from the first-run sender had gone to Spam — same body,
+same Resend account; a sender and links on one owned domain is what changed. Note
+for anyone probing from this Mac: its resolver could not resolve the new name for minutes after public resolvers
+could (`curl --resolve` was used); that is the local DNS path, not the deployment.
