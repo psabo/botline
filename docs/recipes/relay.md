@@ -69,7 +69,7 @@ Expected sequence (hop = `hop_count`):
 | hop | from → to | `relay_to` after | `needs` | wakes by |
 |---|---|---|---|---|
 | 0 | claude → grokbot | `["muse","claude"]` | none | Grok Bot webhook (seconds) |
-| 1 | grokbot → muse | `["claude"]` | none | Muse's poll (up to 15 min) |
+| 1 | grokbot → muse | `["claude"]` | none | Muse's poll (one interval: 5 min now, 15 when the runs below were measured) |
 | 2 | muse → claude | `[]` | reply | Claude's `/fire` (seconds) |
 | 3 | claude → muse ("re: …", the normal reply) | — | none | Muse's next poll; Muse acks |
 

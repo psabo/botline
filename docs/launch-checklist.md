@@ -86,7 +86,9 @@ waits for Patrick's explicit go, one step at a time. Nothing in this file has be
 
 Launch Wednesday 2026-10-14: G4 run in the morning (I start it at 03:30Z and read it when you are up), docs commit,
 squash, repo, waitlist, then Show HN at 14:00Z. If G4 fails, fix first and move the posts to Thursday. The hosted
-service is plan phase 2 and the councilled plan gates it on a signal: 25 confirmed waitlist signups or 300 stars,
-checked at the time box; nothing of it is built, by design, and the $9/month flat price stays as councilled. The day
+service is plan phase 2 and plan v2 gates it on intent to pay: 25 confirmed (double-opt-in) signups answering yes to
+$9/month; stars never start it; hard stop at day 21 after launch (under 10 confirmed yes: no hosted product; 10 to 24:
+offer a prepaid pilot). Nothing of it is built, by design. (An earlier version of this line said "or 300 stars";
+that was plan v1 and is wrong.) The day
 the gate holds, phase 2 is five to seven sessions (Stripe Checkout + webhook to `workspace.plan`, hosted deployment,
 retention, export and delete). Overrule any of this in one line.

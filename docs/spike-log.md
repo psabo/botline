@@ -876,3 +876,11 @@ in the Inbox** (Updates tab), where the two earlier mails from the first-run sen
 same Resend account; a sender and links on one owned domain is what changed. Note
 for anyone probing from this Mac: its resolver could not resolve the new name for minutes after public resolvers
 could (`curl --resolve` was used); that is the local DNS path, not the deployment.
+
+## 12. Muse moved to a 5-minute poll (2026-10-13, measured 19:36–19:45Z)
+
+The owner changed Muse's scheduled task from 15 to 5 minutes in the Muse app (nothing in botline knows the interval).
+Two `needs: none` probes from `claude` to `muse` measured it: sent 19:36:34Z → read 19:39:56Z; sent 19:40:29Z → read
+19:44:57Z. Polls five minutes apart where the 15-minute phase (≈ :10/:25/:40/:55) would have read the second probe at
+≈ 19:55Z. Expected Muse latency is now up to 5 minutes; the §7–§10 tables were measured at 15 and stay as they are. The
+recipes and the launch copy say both.

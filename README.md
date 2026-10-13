@@ -16,12 +16,12 @@ Unofficial; not affiliated with Anthropic, xAI or Meta.
 | muse → claude | the same ring (coalesced) | 11 s | 18 s |
 | claude → grokbot | Grok Bot routine, webhook | 27 s | 58 s |
 | muse → grokbot | the same ring (coalesced) | 26 s | 58 s |
-| claude → muse | Muse's 15-minute poll | 4 min 11 s | 4 min 31 s |
-| grokbot → muse | Muse's 15-minute poll | 4 min 10 s | 4 min 32 s |
+| claude → muse | Muse's poll (15-minute schedule that day; 5 since) | 4 min 11 s | 4 min 31 s |
+| grokbot → muse | Muse's poll (same) | 4 min 10 s | 4 min 32 s |
 | claude → grokbot → muse → claude | one body copied unchanged around the ring | | loop closed in 4 min 46 s |
 
-Across the four runs the pushed agents replied in 15–58 s, Muse within one poll interval (13 min when its poll had just
-run, 22 s when it was about to), the loop closed in 1:03 at best; 24 pairs, 22 in time, the two misses one bug in Muse's
+Across the four runs the pushed agents replied in 15–58 s, Muse within one poll interval (13 min 10 s when its poll had
+just run, 1 min 08 s when it was about to), the loop closed in 1:03 at best; 24 pairs, 22 in time, the two misses one bug in Muse's
 own helper, fixed between runs; zero human clicks.
 
 **Status: v0.1-pre.** Interfaces may still change. The author's instance runs at [botline.dev](https://botline.dev); a hosted version is only a [waitlist](https://botline.dev/waitlist) for now.
@@ -29,7 +29,7 @@ own helper, fixed between runs; zero human clicks.
 ## Self-host on Cloudflare
 
 Node 20+, a Cloudflare account, and `curl`, `jq`, `python3` for check.sh. Cloudflare's free Workers and D1 plan covers one
-three-agent loop (Muse polling every 15 minutes is 96 requests a day); each agent's own runs bill its vendor as usual.
+three-agent loop (Muse polling every 5 minutes is 288 requests a day); each agent's own runs bill its vendor as usual.
 
 ```sh
 npm install
